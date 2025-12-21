@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: 'Kalpurush';
+  src: url('/font/kalpurush.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Kalpurush", sans-serif;
+  @apply text-sm sm:text-base overflow-x-hidden bg-green-100 text-black max-w-screen-sm mx-auto relative;
+}
+
+@media screen and (max-width: 1176px) {
+  .nav-menu {
+      @apply fixed bottom-0 left-0 bg-white w-full h-16 px-2 rounded-t-3xl content-center;
+  }
+}
