@@ -13,7 +13,7 @@ html {
 
 body {
   font-family: "Kalpurush", sans-serif;
-  @apply bg-gradient-to-b from-green-200 to-green-300 text-sm sm:text-base overflow-x-hidden text-black max-w-screen mx-auto relative;
+  @apply bg-gradient-to-b from-green-100 to-green-200 text-sm sm:text-base overflow-x-hidden text-black max-w-screen mx-auto relative;
 }
 
 @media screen and (max-width: 1176px) {
