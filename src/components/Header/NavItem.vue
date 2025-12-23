@@ -14,10 +14,6 @@
         :class="isActive ? 'text-green-600' : 'text-gray-500'"
       />
       <span class="text-sm lg:text-base whitespace-nowrap">{{ navName }}</span>
-      <span 
-        v-if="isActive && !mobile"
-        class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-green-500 rounded-full"
-      ></span>
     </router-link>
   </li>
 </template>

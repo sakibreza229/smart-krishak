@@ -248,7 +248,7 @@ const mainNavItems = [
   { id: '/', name: 'হোম', icon: HomeIcon },
   { id: '/crop-analysis', name: 'ফসল বিশ্লেষণ', icon: QrCodeIcon },
   { id: '/crop-maintenance', name: 'রক্ষণাবেক্ষণ', icon: BuildingStorefrontIcon },
-  { id: '/additional-info', name: 'অন্যান্য তথ্য', icon: Squares2X2Icon },
+  { id: '/additional-info', name: 'অন্যান্য', icon: Squares2X2Icon },
   { id: '/profile-page', name: 'প্রোফাইল', icon: UserCircleIcon }
 ]
 

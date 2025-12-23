@@ -6,10 +6,10 @@ import { RouterView } from 'vue-router';
 
 <template>
   <AppHeader />
-  <main>
+  <main class="my-20">
     <RouterView />
   </main>
-  <h1>Smart Krishak</h1>
+  <AppFooter />
 </template>
 
 <style scoped>
