@@ -6,7 +6,7 @@ import { RouterView } from 'vue-router';
 
 <template>
   <AppHeader />
-  <main class="my-20">
+  <main class="mt-16">
     <RouterView />
   </main>
   <AppFooter />
