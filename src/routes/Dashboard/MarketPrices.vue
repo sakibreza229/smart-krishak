@@ -1,55 +1,89 @@
 <template>
-  <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-5 text-white shadow-xl">
-    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-      <div class="p-2 bg-white/20 rounded-lg">
-        <font-awesome-icon :icon="['fas', 'money-bill-wave']" class="w-5 h-5" />
+  <div class="bg-white rounded-2xl p-6 shadow-xl border border-slate-100">
+    <h3 class="text-lg font-bold mb-4 flex items-center gap-3">
+      <div class="p-2 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg text-white">
+        <font-awesome-icon :icon="['fas', 'tags']" />
       </div>
-      আজকের দাম
-    </h2>
-    
+      বাজার দর
+    </h3>
     <div class="space-y-3">
       <div 
         v-for="item in prices" 
-        :key="item.id"
-        class="flex justify-between items-center p-3 bg-white/10 rounded-xl"
+        :key="item.crop" 
+        class="flex justify-between items-center p-3 hover:bg-orange-50 rounded-xl transition-colors"
       >
         <div class="flex items-center gap-3">
-          <div class="p-2 bg-white/20 rounded-lg">
-            <font-awesome-icon :icon="item.icon" class="w-4 h-4" />
+          <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+            <!-- ভিন্ন ফসলের জন্য ভিন্ন আইকন -->
+            <font-awesome-icon 
+              :icon="getCropIcon(item.crop)" 
+              class="text-orange-600" 
+            />
           </div>
           <div>
-            <p class="font-semibold">{{ item.crop }}</p>
-            <p class="text-xs opacity-80">{{ item.market }}</p>
+            <p class="font-medium text-slate-800">{{ item.crop }}</p>
+            <p class="text-xs text-slate-500">প্রতি কেজি</p>
           </div>
         </div>
         <div class="text-right">
-          <p class="text-lg font-bold">{{ item.price }}</p>
-          <div class="flex items-center justify-end gap-1">
-            <font-awesome-icon 
-              :icon="item.change >= 0 ? 'arrow-up' : 'arrow-down'" 
-              class="w-3 h-3" 
-              :class="item.change >= 0 ? 'text-green-300' : 'text-red-300'" 
-            />
-            <span :class="`text-xs ${item.change >= 0 ? 'text-green-300' : 'text-red-300'}`">
-              {{ item.change >= 0 ? '+' : '' }}{{ item.change }}%
-            </span>
-          </div>
+          <p class="font-bold text-slate-900">৳{{ item.price }}</p>
+          <p 
+            :class="[
+              'text-xs font-medium', 
+              item.change >= 0 ? 'text-green-600' : 'text-red-600'
+            ]"
+          >
+            {{ item.change >= 0 ? '↑' : '↓' }} {{ Math.abs(item.change) }}%
+          </p>
         </div>
       </div>
     </div>
     
-    <button class="w-full mt-4 bg-white text-amber-600 py-3 rounded-xl font-semibold hover:bg-gray-100 active:scale-95 transition-all flex items-center justify-center gap-2">
-      <font-awesome-icon :icon="['fas', 'list']" class="w-4 h-4" />
-      সব দাম দেখুন
-    </button>
+    <!-- রিফ্রেশ বাটন -->
+    <div class="mt-4 pt-4 border-t border-gray-100">
+      <button 
+        @click="$emit('refresh')"
+        class="w-full py-2 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-2"
+      >
+        <font-awesome-icon :icon="['fas', 'sync-alt']" />
+        <span>হালনাগাদ করুন</span>
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { defineProps, defineEmits } from 'vue'
+
 defineProps({
   prices: {
     type: Array,
-    required: true
+    required: true,
+    default: () => []
   }
 })
+
+defineEmits(['refresh'])
+
+// ফসলের নাম অনুযায়ী আইকন বেছে নিন
+const getCropIcon = (cropName) => {
+  const iconMap = {
+    'ধান': 'wheat-awn',
+    'গম': 'wheat-awn',
+    'ভুট্টা': 'corn',
+    'আলু': 'carrot',
+    'পাট': 'leaf',
+    'টমেটো': 'apple-whole',
+    'বেগুন': 'eggplant',
+    'মরিচ': 'pepper-hot',
+    'ডাল': 'seedling',
+    'সবজি': 'carrot'
+  }
+  
+  // আইকন খুঁজে পাওয়া গেলে তা রিটার্ন করুন, না হলে ডিফল্ট আইকন
+  const iconName = iconMap[cropName] || 'wheat-awn'
+  
+  // icon name স্ট্রিং হিসেবে রিটার্ন করুন
+  return iconName
+}
 </script>

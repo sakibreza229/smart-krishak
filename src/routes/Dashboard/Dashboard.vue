@@ -33,37 +33,38 @@
     </div>
 
     <!-- মেইন কন্টেন্ট -->
-<div class="space-y-4 md:space-y-6 w-full">
-  <!-- সারি ১: আবহাওয়া ও চলতি ফসল -->
-  <div class="flex flex-col lg:flex-row gap-4 md:gap-6">
-    <!-- বাম কলাম -->
-    <div class="flex flex-col lg:w-2/3 space-y-4 md:space-y-6">
-      <WeatherCard :weather="weather" class="flex-1" />
-      <QuickActions :actions="quickActions" class="flex-1" />
+    <div class="space-y-4 md:space-y-6 w-full">
+      <!-- সারি ১: আবহাওয়া ও চলতি ফসল -->
+      <div class="flex flex-col lg:flex-row gap-4 md:gap-6">
+        <!-- বাম কলাম -->
+        <div class="flex flex-col lg:w-2/3 space-y-4 md:space-y-6">
+          <WeatherCard :weather="weather" class="flex-1" />
+          <QuickActions :actions="quickActions" class="flex-1" />
+        </div>
+        
+        <!-- ডান কলাম -->
+        <CurrentCrops :crops="currentCrops" class="lg:w-1/3" />
+      </div>
+
+      <!-- সারি ২: আজকের কাজ ও বাজার দর -->
+      <div class="flex flex-col lg:flex-row gap-4 md:gap-6">
+        <!-- বাম কলাম -->
+        <TodayTasks :tasks="todaysTasks" class="lg:w-2/3" />
+        
+        <!-- ডান কলাম -->
+        <!-- এখানে prop নাম ঠিক করুন: prices => marketPrices -->
+        <MarketPrices :prices="marketPrices" class="lg:w-1/3" />
+      </div>
+
+      <!-- সারি ৩: টুলস ও সরকারি নোটিশ -->
+      <div class="flex flex-col lg:flex-row gap-4 md:gap-6">
+        <!-- বাম কলাম -->
+        <QuickTools :tools="govtTools" :links="quickLinks" class="lg:w-2/3" />
+        
+        <!-- ডান কলাম -->
+        <GovtNoticeCard :notices="govtNotices" class="lg:w-1/3" />
+      </div>
     </div>
-    
-    <!-- ডান কলাম -->
-    <CurrentCrops :crops="currentCrops" class="lg:w-1/3" />
-  </div>
-
-  <!-- সারি ২: আজকের কাজ ও বাজার দর -->
-  <div class="flex flex-col lg:flex-row gap-4 md:gap-6">
-    <!-- বাম কলাম -->
-    <TodayTasks :tasks="todaysTasks" class="lg:w-2/3" />
-    
-    <!-- ডান কলাম -->
-    <MarketPrices :prices="marketPrices" class="lg:w-1/3" />
-  </div>
-
-  <!-- সারি ৩: টুলস ও সরকারি নোটিশ -->
-  <div class="flex flex-col lg:flex-row gap-4 md:gap-6">
-    <!-- বাম কলাম -->
-    <QuickTools :tools="govtTools" :links="quickLinks" class="lg:w-2/3" />
-    
-    <!-- ডান কলাম -->
-    <GovtNoticeCard :notices="govtNotices" class="lg:w-1/3" />
-  </div>
-</div>
     
     <!-- নিচের স্ট্যাটস -->
     <div class="mt-4 md:mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -87,7 +88,7 @@ import { ref, onMounted } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
-// আইকন ইমপোর্ট
+// আইকন ইমপোর্ট - নতুন আইকন যোগ করুন
 import {
   faUser, faMapMarkerAlt, faTint, faWind, faCloudRain,
   faLightbulb, faBolt, faTasks, faClock, faChevronRight,
@@ -98,7 +99,7 @@ import {
   faSeedling, faNewspaper, faLandmark, faCalendar,
   faGraduationCap, faHandHoldingUsd, faExternalLinkAlt,
   faTools, faCalculator, faBookOpen, faGlobe, faMobileAlt,
-  faCloudSun, faChartBar, faVideo, faSun
+  faCloudSun, faChartBar, faVideo, faSun, faSyncAlt, faPepperHot // নতুন আইকন যোগ করুন
 } from '@fortawesome/free-solid-svg-icons'
 
 // আইকন লাইব্রেরিতে যোগ করুন
@@ -111,16 +112,16 @@ library.add(
   faWheatAwn, faCarrot, faSeedling, faNewspaper, faLandmark,
   faCalendar, faGraduationCap, faHandHoldingUsd, faExternalLinkAlt,
   faTools, faCalculator, faBookOpen, faGlobe, faMobileAlt,
-  faCloudSun, faChartBar, faVideo, faSun
+  faCloudSun, faChartBar, faVideo, faSun, faSyncAlt, faPepperHot // নতুন আইকন যোগ করুন
 )
 
 // কম্পোনেন্ট ইমপোর্ট
-import WeatherCard from './WeatherCard.vue'
+import WeatherCard from '../../components/WeatherCard.vue'
 import QuickActions from './QuickActions.vue'
 import TodayTasks from './TodayTasks.vue'
 import GovtNoticeCard from './GovtNoticeCard.vue'
 import CurrentCrops from './CurrentCrops.vue'
-import MarketPrices from './MarketPrices.vue'
+import MarketPrices from './MarketPrices.vue' // কম্পোনেন্ট ইমপোর্ট নিশ্চিত করুন
 import QuickTools from './QuickTools.vue'
 
 // রিঅ্যাক্টিভ স্টেট
@@ -158,10 +159,14 @@ const currentCrops = ref([
   { id: 3, name: "আলু", area: "১.২", status: "রোপণ", progress: 15, daysLeft: "৭", icon: ['fas', 'carrot'], color: "blue" }
 ])
 
+// marketPrices কে ref বা reactive করুন
 const marketPrices = ref([
-  { id: 1, crop: "ধান", price: "১,২০০ ৳", market: "হবিগঞ্জ", change: 2.5, icon: ['fas', 'wheat-awn'] },
-  { id: 2, crop: "পাট", price: "২,৮০০ ৳", market: "সিলেট", change: -1.2, icon: ['fas', 'leaf'] },
-  { id: 3, crop: "আলু", price: "৮০০ ৳", market: "সুনামগঞ্জ", change: 5.1, icon: ['fas', 'carrot'] }
+  { crop: "ধান", price: "৪২", change: 2.5 },
+  { crop: "গম", price: "৩৫", change: 1.2 },
+  { crop: "আলু", price: "২৫", change: -0.8 },
+  { crop: "টমেটো", price: "৩০", change: 3.1 },
+  { crop: "পাট", price: "৩৮", change: 1.5 },
+  { crop: "ভুট্টা", price: "২৮", change: 0.5 }
 ])
 
 const govtTools = ref([
@@ -189,6 +194,24 @@ const stats = ref([
   { id: 3, label: "এই মাসে আয়", value: "৫৪,২০০ ৳", icon: ['fas', 'money-bill-wave'], iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600' },
   { id: 4, label: "ফসল ভালো", value: "৮৯%", icon: ['fas', 'heart'], iconBg: 'bg-purple-100', iconColor: 'text-purple-600' }
 ])
+
+// রিফ্রেশ ফাংশন
+const refreshMarketPrices = () => {
+  // বাজার দর হালনাগাদের জন্য API কল বা সিমুলেশন
+  console.log('বাজার দর হালনাগাদ হচ্ছে...')
+  
+  // সিমুলেটেড আপডেট
+  marketPrices.value.forEach(item => {
+    // এলোমেলোভাবে দাম পরিবর্তন করুন (সিমুলেশনের জন্য)
+    const randomChange = (Math.random() * 4 - 2).toFixed(1) // -2 থেকে +2
+    item.change = parseFloat(randomChange)
+    
+    // দাম সামান্য পরিবর্তন করুন
+    const basePrice = parseInt(item.price)
+    const newPrice = basePrice + (Math.random() > 0.5 ? 1 : -1)
+    item.price = Math.max(20, Math.min(50, newPrice)).toString()
+  })
+}
 
 onMounted(() => {
   updateDate()

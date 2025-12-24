@@ -67,7 +67,7 @@
 
                 <div v-else class="relative group m-2">
                     <div class="relative overflow-hidden rounded-2xl border-4 border-white shadow-lg">
-                        <img :src="image" alt="Preview" class="w-full h-80 object-cover" />
+                        <img :src="image" alt="Preview" class="w-full h-[21.75rem] object-cover" />
                         
                         <!-- Loading overlay -->
                         <div v-if="isLoading" 
@@ -158,7 +158,7 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="mt-8 flex flex-wrap gap-3 border-t border-slate-100 pt-6">
+                    <div class="mt-2 flex flex-wrap gap-3 border-t border-slate-100 pt-6">
                         <button @click="$emit('download-report')" 
                                 class="flex-1 min-w-[150px] bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-3.5 px-6 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-100">
                             <font-awesome-icon :icon="['fas', 'download']" />
